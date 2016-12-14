@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+
+<script type="text/javascript" type="text/javascript">
+  // Connecting to ROS
+  // -----------------
+
+  var ros = new ROSLIB.Ros({
+    url : 'ws://localhost:9090'
+  });
+
+  ros.on('connection', function() {
+    console.log('Connected to websocket server.');
+  });
+
+  ros.on('error', function(error) {
+    console.log('Error connecting to websocket server: ', error);
+  });
+
+  ros.on('close', function() {
+    console.log('Connection to websocket server closed.');
+  });
+
+  // Publishing a Topic
+  // ------------------
+
+  var cmdVel = new ROSLIB.Topic({
+    ros : ros,
+    name : '/aString',
+    messageType : 'std_msgs/String'
+  });
+
+  var thing = new ROSLIB.Message({
+    data : "woah"
+  });
+
+  function foo(){ 
+    thing.data += "h";
+    cmdVel.publish(thing);
+    console.log("I'm loopin'\n");
+
+    setTimeout(foo, 1000);
+  }
+
+foo();
+
+</script>
+</head>
+
+<body>
+  <h1>Simple roslib Example</h1>
+  <p>Check your Web Console for output.</p>
+</body>
+</html>
