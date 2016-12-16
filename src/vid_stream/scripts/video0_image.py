@@ -15,7 +15,7 @@ def talker():
     
     pub = rospy.Publisher('chatter', Image, queue_size=10)
     rospy.init_node('talker', anonymous=True)
-    rate = rospy.Rate(5) #Hz
+    rate = rospy.Rate(20) #Hz
 
     while not rospy.is_shutdown():
 
